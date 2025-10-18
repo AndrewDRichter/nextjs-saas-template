@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Link from "next/link";
 import {
   Sheet,
@@ -11,6 +13,27 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Menu } from "lucide-react";
 
 export function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const navItems = [
+    { href: "/profissionais", label: "Profissionais" },
+    { href: "/contatos", label: "Contatos" },
+  ];
+
+  const NavLinks = () => (
+    <>
+      {navItems.map((item) => (
+        <Button
+          key={item.href}
+          asChild
+          className="bg-transparent hover:bg-transparent text-black shadow-none"
+        >
+          <Link href={item.href}>{item.label}</Link>
+        </Button>
+      ))}
+    </>
+  );
+
   return (
     <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-white">
       <div className="container mx-auto flex items-center justify-between">
@@ -18,8 +41,8 @@ export function Header() {
           Odonto<span className="text-emerald-500">PRO</span>
         </Link>
 
-        <nav className="hidden md:flex items-center justify-center">
-          <a href="#">Profissionais</a>
+        <nav className="hidden md:flex items-center">
+          <NavLinks />
         </nav>
 
         <Sheet>
@@ -40,8 +63,8 @@ export function Header() {
             <SheetTitle>Menu</SheetTitle>
             <SheetDescription>Links</SheetDescription>
 
-            <nav>
-              <a href="/">Profissionais</a>
+            <nav className="flex flex-col">
+              <NavLinks />
             </nav>
           </SheetContent>
         </Sheet>

@@ -10,10 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Menu } from "lucide-react";
+import { Menu, LogIn } from "lucide-react";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const session = null;
 
   const navItems = [
     { href: "/profissionais", label: "Profissionais" },
@@ -27,18 +30,34 @@ export function Header() {
           key={item.href}
           onClick={() => setIsOpen(false)}
           asChild
-          className="bg-transparent hover:bg-transparent text-black shadow-none"
+          className="bg-transparent hover:bg-transparent text-black dark:text-white shadow-none"
         >
-          <Link href={item.href}>{item.label}</Link>
+          <Link href={item.href} className="text-base">
+            {item.label}
+          </Link>
         </Button>
       ))}
+
+      {session ? (
+        <Link href="/dashboard" className="flex items-center justify-center">
+          Acessar painel
+        </Link>
+      ) : (
+        <Button className="mx-6">
+          <LogIn />
+          Portal da clínica
+        </Button>
+      )}
     </>
   );
 
   return (
-    <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-white">
+    <header className="fixed top-0 right-0 left-0 z-[999] py-4 px-6 bg-white dark:bg-black">
       <div className="container mx-auto flex items-center justify-between">
-        <Link href="/" className="text-3xl font-bold text-zinc-900">
+        <Link
+          href="/"
+          className="text-3xl font-bold text-zinc-900 dark:text-white"
+        >
           Odonto<span className="text-emerald-500">PRO</span>
         </Link>
 
@@ -49,7 +68,7 @@ export function Header() {
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button
-              className="text-black hover:bg-transparent"
+              className="text-black dark:text-white hover:bg-transparent"
               variant="ghost"
               size="icon"
             >
@@ -67,8 +86,10 @@ export function Header() {
             <nav className="flex flex-col space-y-4 mt-6">
               <NavLinks />
             </nav>
+            <ThemeToggle btnClass="md:hidden" />
           </SheetContent>
         </Sheet>
+        <ThemeToggle btnClass="hidden md:flex" />
       </div>
     </header>
   );

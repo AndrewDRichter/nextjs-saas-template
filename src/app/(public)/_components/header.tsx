@@ -25,6 +25,7 @@ export function Header() {
       {navItems.map((item) => (
         <Button
           key={item.href}
+          onClick={() => setIsOpen(false)}
           asChild
           className="bg-transparent hover:bg-transparent text-black shadow-none"
         >
@@ -45,7 +46,7 @@ export function Header() {
           <NavLinks />
         </nav>
 
-        <Sheet>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild className="md:hidden">
             <Button
               className="text-black hover:bg-transparent"
@@ -63,7 +64,7 @@ export function Header() {
             <SheetTitle>Menu</SheetTitle>
             <SheetDescription>Links</SheetDescription>
 
-            <nav className="flex flex-col">
+            <nav className="flex flex-col space-y-4 mt-6">
               <NavLinks />
             </nav>
           </SheetContent>

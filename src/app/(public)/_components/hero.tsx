@@ -5,9 +5,9 @@ import drImage from "../../../../public/doctor-hero.png";
 export function Hero() {
   return (
     <section>
-      <div className="container mx-auto px-4 pt-20 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 pt-20 pb-4 md:pb-0 sm:px-6 lg:px-8">
         <main className="flex items-center justify-center">
-          <article className="flex[2] max-w-xl space-y-8 flex flex-col justify-center">
+          <article className="flex-[2] max-w-3xl space-y-8 flex flex-col justify-center">
             <h1 className="text-4xl lg:text-5xl font-bold max-w-2xl tracking-tight">
               Encontre os melhores profissionais em um único lugar!
             </h1>

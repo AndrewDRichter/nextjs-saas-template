@@ -11,8 +11,25 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, List } from "lucide-react";
+import {
+  Banknote,
+  ChevronLeft,
+  ChevronRight,
+  FolderOpen,
+  LayoutDashboard,
+  List,
+  User2Icon,
+} from "lucide-react";
 import Link from "next/link";
+import { ThemeToggle } from "@/app/(public)/_components/theme-toggle";
+import logoImage from "../../../../../public/logo-odonto.png";
+import Image from "next/image";
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,14 +37,91 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full">
-      <div
+      <aside
         className={clsx(
-          "flex flex-1 flex-col transition-all duration-300 bg-amber-600",
+          "flex flex-col border-r bg-background transition-all duration-300 p-4 h-full",
           {
-            "md:ml-20": isCollapsed,
-            "md:ml-64": !isCollapsed,
+            "w-20": isCollapsed,
+            "w-64": !isCollapsed,
+            "hidden md:flex md:fixed": true,
           }
         )}
+      >
+        <div className="mb-6 mt-4">
+          {!isCollapsed && (
+            <Image
+              src={logoImage}
+              alt="Company logo"
+              priority
+              quality={100}
+              style={{ width: "auto", height: "auto" }}
+            />
+          )}
+        </div>
+
+        <Button
+          className="bg-gray-200 hover:bg-gray-50 text-zinc-900 self-end mb-2"
+          onClick={() => setIsCollapsed(!isCollapsed)}
+        >
+          {isCollapsed ? (
+            <ChevronRight className="w-12 h-12" />
+          ) : (
+            <ChevronLeft className="w-12 h-12" />
+          )}
+        </Button>
+
+        <Collapsible open={!isCollapsed}>
+          <CollapsibleContent>
+            <nav className="flex flex-col gap-1 overflow-hidden">
+              <span className="text-sm text-gray-700 dark:text-gray-500 font-medium mt-1 uppercase">
+                Painel
+              </span>
+
+              <SidebarLink
+                href="/dashboard"
+                icon={<LayoutDashboard />}
+                label="Agendamentos"
+                pathname={pathname}
+                isCollapsed={isCollapsed}
+              />
+              <SidebarLink
+                href="/dashboard/services"
+                icon={<FolderOpen />}
+                label="Serviços"
+                pathname={pathname}
+                isCollapsed={isCollapsed}
+              />
+
+              <span className="text-sm text-gray-700 dark:text-gray-500 font-medium mt-1 uppercase">
+                Conta
+              </span>
+
+              <SidebarLink
+                href="/dashboard/profile"
+                icon={<User2Icon />}
+                label="Perfil"
+                pathname={pathname}
+                isCollapsed={isCollapsed}
+              />
+              <SidebarLink
+                href="/dashboard/plans"
+                icon={<Banknote />}
+                label="Planos"
+                pathname={pathname}
+                isCollapsed={isCollapsed}
+              />
+            </nav>
+          </CollapsibleContent>
+        </Collapsible>
+
+        <ThemeToggle btnClass="justify-self-end" />
+      </aside>
+
+      <div
+        className={clsx("flex flex-1 flex-col transition-all duration-300", {
+          "md:ml-20": isCollapsed,
+          "md:ml-64": !isCollapsed,
+        })}
       >
         <header className="md:hidden flex items-center justify-between border-b px-4 md:px-6 h-14 z-10 sticky top-0 bg-white dark:bg-black">
           <Sheet>
@@ -42,17 +136,40 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
               </h1>
             </div>
 
-            <SheetContent side="left" className="sm:max-w-xs text-black">
+            <SheetContent side="left" className="sm:max-w-xs text-black p-5">
               <SheetTitle>OdontoPRO</SheetTitle>
               <SheetDescription>Menu admin</SheetDescription>
               <nav className="grid gap-2 text-base pt-5">
                 <SidebarLink
                   href="/dashboard"
                   icon={<LayoutDashboard />}
-                  label="Painel"
+                  label="Agendamentos"
                   pathname={pathname}
-                  isCollapsed={isCollapsed} />
+                  isCollapsed={isCollapsed}
+                />
+                <SidebarLink
+                  href="/dashboard/services"
+                  icon={<FolderOpen />}
+                  label="Serviços"
+                  pathname={pathname}
+                  isCollapsed={isCollapsed}
+                />
+                <SidebarLink
+                  href="/dashboard/profile"
+                  icon={<User2Icon />}
+                  label="Perfil"
+                  pathname={pathname}
+                  isCollapsed={isCollapsed}
+                />
+                <SidebarLink
+                  href="/dashboard/plans"
+                  icon={<Banknote />}
+                  label="Planos"
+                  pathname={pathname}
+                  isCollapsed={isCollapsed}
+                />
               </nav>
+              <ThemeToggle btnClass="text-black dark:text-white" />
             </SheetContent>
           </Sheet>
         </header>
@@ -71,13 +188,28 @@ interface SidebarLinkProps {
   isCollapsed: boolean;
 }
 
-function SidebarLink({ href, icon, label, pathname, isCollapsed }: SidebarLinkProps) {
+function SidebarLink({
+  href,
+  icon,
+  label,
+  pathname,
+  isCollapsed,
+}: SidebarLinkProps) {
   return (
     <Link href={href}>
-      <div className="flex items-center gap-2 bg-blue-500 px-3 py-2 rounded-md">
+      <div
+        className={clsx(
+          "flex items-center gap-2 px-3 py-2 rounded-md transition-colors",
+          {
+            "text-white bg-blue-500": pathname === href,
+            "text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800":
+              pathname !== href,
+          }
+        )}
+      >
         <span className="w-6 h-6">{icon}</span>
         {!isCollapsed && <span>{label}</span>}
       </div>
     </Link>
-  )
+  );
 }

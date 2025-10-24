@@ -11,7 +11,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { List } from "lucide-react";
+import { LayoutDashboard, List } from "lucide-react";
 import Link from "next/link";
 
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
@@ -45,8 +45,13 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <SheetContent side="left" className="sm:max-w-xs text-black">
               <SheetTitle>OdontoPRO</SheetTitle>
               <SheetDescription>Menu admin</SheetDescription>
-              <nav>
-                <p>teste</p>
+              <nav className="grid gap-2 text-base pt-5">
+                <SidebarLink
+                  href="/dashboard"
+                  icon={<LayoutDashboard />}
+                  label="Painel"
+                  pathname={pathname}
+                  isCollapsed={isCollapsed} />
               </nav>
             </SheetContent>
           </Sheet>
@@ -58,8 +63,21 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   );
 }
 
-interface SidebarLinkProps {}
+interface SidebarLinkProps {
+  href: string;
+  icon: React.ReactNode;
+  label: string;
+  pathname: string;
+  isCollapsed: boolean;
+}
 
-function SidebarLink() {
-  return <Link href="/"></Link>;
+function SidebarLink({ href, icon, label, pathname, isCollapsed }: SidebarLinkProps) {
+  return (
+    <Link href={href}>
+      <div className="flex items-center gap-2 bg-blue-500 px-3 py-2 rounded-md">
+        <span className="w-6 h-6">{icon}</span>
+        {!isCollapsed && <span>{label}</span>}
+      </div>
+    </Link>
+  )
 }

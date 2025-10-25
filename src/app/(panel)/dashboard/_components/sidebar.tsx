@@ -38,10 +38,13 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen w-full">
       <aside
+        // Opção de abertura da sidebar, ao passar o mouse em cima.
+        // onMouseEnter={() => setIsCollapsed(false)}
+        // onMouseLeave={() => setIsCollapsed(true)}
         className={clsx(
           "flex flex-col border-r bg-background transition-all duration-300 p-4 h-full",
           {
-            "w-20": isCollapsed,
+            "w-20 items-center": isCollapsed,
             "w-64": !isCollapsed,
             "hidden md:flex md:fixed": true,
           }
@@ -49,13 +52,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
       >
         <div className="mb-6 mt-4">
           {!isCollapsed && (
-            <Image
-              src={logoImage}
-              alt="Company logo"
-              priority
-              quality={100}
-              style={{ width: "auto", height: "auto" }}
-            />
+            <Image src={logoImage} alt="Company logo" priority quality={100} />
           )}
         </div>
 
@@ -69,6 +66,40 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             <ChevronLeft className="w-12 h-12" />
           )}
         </Button>
+
+        {isCollapsed && (
+          <nav className="flex flex-col gap-1 overflow-hidden">
+            <SidebarLink
+              href="/dashboard"
+              icon={<LayoutDashboard />}
+              label="Agendamentos"
+              pathname={pathname}
+              isCollapsed={isCollapsed}
+            />
+            <SidebarLink
+              href="/dashboard/services"
+              icon={<FolderOpen />}
+              label="Serviços"
+              pathname={pathname}
+              isCollapsed={isCollapsed}
+            />
+
+            <SidebarLink
+              href="/dashboard/profile"
+              icon={<User2Icon />}
+              label="Perfil"
+              pathname={pathname}
+              isCollapsed={isCollapsed}
+            />
+            <SidebarLink
+              href="/dashboard/plans"
+              icon={<Banknote />}
+              label="Planos"
+              pathname={pathname}
+              isCollapsed={isCollapsed}
+            />
+          </nav>
+        )}
 
         <Collapsible open={!isCollapsed}>
           <CollapsibleContent>
@@ -114,7 +145,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
           </CollapsibleContent>
         </Collapsible>
 
-        <ThemeToggle btnClass="justify-self-end" />
+        <ThemeToggle btnClass="" />
       </aside>
 
       <div

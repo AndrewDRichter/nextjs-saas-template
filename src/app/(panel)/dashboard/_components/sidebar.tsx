@@ -145,7 +145,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
           </CollapsibleContent>
         </Collapsible>
 
-        <ThemeToggle btnClass="" />
+        {/* <ThemeToggle btnClass="" /> */}
       </aside>
 
       <div
@@ -200,7 +200,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                   isCollapsed={isCollapsed}
                 />
               </nav>
-              <ThemeToggle btnClass="text-black dark:text-white" />
+              {/* <ThemeToggle btnClass="text-black dark:text-white" /> */}
             </SheetContent>
           </Sheet>
         </header>

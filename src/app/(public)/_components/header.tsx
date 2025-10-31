@@ -86,10 +86,10 @@ export function Header() {
             <nav className="flex flex-col space-y-4 mt-6">
               <NavLinks />
             </nav>
-            <ThemeToggle btnClass="md:hidden" />
+            {/* <ThemeToggle btnClass="md:hidden" /> */}
           </SheetContent>
         </Sheet>
-        <ThemeToggle btnClass="hidden md:flex" />
+        {/* <ThemeToggle btnClass="hidden md:flex" /> */}
       </div>
     </header>
   );

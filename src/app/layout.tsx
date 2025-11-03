@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Reddit_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { SessionAuthProvider } from "@/components/session-auth";
 
 const redditSans = Reddit_Sans({
   subsets: ["latin"],
@@ -38,7 +39,7 @@ export default function RootLayout({
           defaultTheme="system"
           disableTransitionOnChange
         >
-          {children}
+          <SessionAuthProvider>{children}</SessionAuthProvider>
         </ThemeProvider>
       </body>
     </html>

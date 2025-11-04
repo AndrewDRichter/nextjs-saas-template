@@ -19,13 +19,118 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import Image from "next/image";
+import placeholderIMG from "../../../../../../public/foto1.png";
 
 export function ProfileContent() {
   const form = useProfileForm();
 
   return (
-    <div>
-      <h1>TESTE</h1>
+    <div className="mx-auto">
+      <Form {...form}>
+        <form>
+          <Card>
+            <CardHeader>
+              <CardTitle>Meu perfil</CardTitle>
+            </CardHeader>
+            {/* <CardContent className="space-y-6"> */}
+            <CardContent>
+              <div className="flex justify-center">
+                <div className="bg-gray-200 relative h-40 w-40 rounded-full overflow-hidden">
+                  <Image
+                    src={placeholderIMG}
+                    alt="Profile photo"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Nome completo
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Digite o nome da clínica..."
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="address"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">Endereço</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Endereço da clínica..."
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">Telefone</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field}
+                          placeholder="Telefone da clínica..."
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="status"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-semibold">
+                        Status da Clínica
+                      </FormLabel>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue="active"
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Selecione o status da clínica" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="active">
+                              Ativo (clínica aberta)
+                            </SelectItem>
+                            <SelectItem value="inactive">
+                              Inativo (clínica fechada)
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </form>
+      </Form>
     </div>
   );
 }

@@ -21,6 +21,16 @@ import {
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import placeholderIMG from "../../../../../../public/foto1.png";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 export function ProfileContent() {
   const form = useProfileForm();
@@ -33,8 +43,7 @@ export function ProfileContent() {
             <CardHeader>
               <CardTitle>Meu perfil</CardTitle>
             </CardHeader>
-            {/* <CardContent className="space-y-6"> */}
-            <CardContent>
+            <CardContent className="space-y-6">
               <div className="flex justify-center">
                 <div className="bg-gray-200 relative h-40 w-40 rounded-full overflow-hidden">
                   <Image
@@ -61,6 +70,7 @@ export function ProfileContent() {
                           placeholder="Digite o nome da clínica..."
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -126,6 +136,37 @@ export function ProfileContent() {
                     </FormItem>
                   )}
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="font-semibold">
+                  Configurar horários de funcionamento da clínica
+                </Label>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-between"
+                    >
+                      Clique aqui para selecionar horários
+                      <ArrowRight className="w-5 h-5" />
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Horários de funcionamento</DialogTitle>
+                      <DialogDescription>Em construção...</DialogDescription>
+                    </DialogHeader>
+
+                    <section className="py-4">
+                      <p className="text-sm text-muted-foreground">
+                        Clique nos horários abaixo para marcar ou desmarcar
+                      </p>
+                      <div>...</div>
+                    </section>
+                  </DialogContent>
+                </Dialog>
               </div>
             </CardContent>
           </Card>

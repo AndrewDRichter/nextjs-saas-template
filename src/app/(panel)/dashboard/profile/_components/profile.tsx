@@ -66,6 +66,19 @@ export function ProfileContent() {
     );
   }
 
+  const timeZones = Intl.supportedValuesOf('timeZone').filter((zone) =>
+    zone.startsWith('America/Asuncion') ||
+    zone.startsWith('America/Argentina/Buenos_Aires') ||
+    zone.startsWith('America/Fortaleza') ||
+    zone.startsWith('America/Recife') ||
+    zone.startsWith('America/Bahia') ||
+    zone.startsWith('America/Belem') ||
+    zone.startsWith('America/Manaus') ||
+    zone.startsWith('America/Cuiaba') ||
+    zone.startsWith('America/Boa_Vista') ||
+    zone.startsWith('America/Sao_Paulo')
+  )
+
   return (
     <div className="mx-auto">
       <Form {...form}>
@@ -202,7 +215,7 @@ export function ProfileContent() {
                             className={cn(
                               "h-10",
                               selectedHours.includes(hour) &&
-                                "border-2 border-emerald-500 text-primary"
+                              "border-2 border-emerald-500 text-primary"
                             )}
                             onClick={() => toggleHour(hour)}
                           >
@@ -221,6 +234,43 @@ export function ProfileContent() {
                   </DialogContent>
                 </Dialog>
               </div>
+
+              <FormField
+                control={form.control}
+                name="timeZone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-semibold">
+                      Fuso-horário
+                    </FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecione o fuso-horário" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {timeZones.map((zone) => (
+                            <SelectItem key={zone} value="zone">
+                              {zone}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <Button
+                type="submit"
+                className="w-full bg-emerald-500 hover:bg-emerald-400"
+              >
+                Salvar alterações
+              </Button>
+
             </CardContent>
           </Card>
         </form>

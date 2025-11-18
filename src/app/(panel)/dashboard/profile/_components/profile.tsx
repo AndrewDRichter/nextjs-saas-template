@@ -104,6 +104,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
       ...values,
       times: selectedHours,
     };
+    console.log("Profile Data Submitted: ", profileData);
   }
 
   return (
@@ -118,7 +119,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
               <div className="flex justify-center">
                 <div className="bg-gray-200 relative h-40 w-40 rounded-full overflow-hidden">
                   <Image
-                    src={placeholderIMG}
+                    src={user.image || placeholderIMG}
                     alt="Profile photo"
                     fill
                     className="object-cover"

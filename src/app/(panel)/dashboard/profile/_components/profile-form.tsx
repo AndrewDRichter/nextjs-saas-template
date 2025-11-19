@@ -33,7 +33,7 @@ export function useProfileForm({
       name: name || "",
       address: address || "",
       phone: phone || "",
-      status: status ? "Active" : "Inactive",
+      status: status ? "active" : "inactive",
       timeZone: timeZone || Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
   });

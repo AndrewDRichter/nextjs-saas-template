@@ -35,6 +35,8 @@ import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Prisma } from "@/generated/prisma/client";
 import { updateProfile } from "../_actions/update-profile";
+import { toast } from "sonner";
+import { formatPhoneNumber } from "@/utils/phoneFormat";
 
 type UserWithSubscription = Prisma.UserGetPayload<{
   include: {
@@ -110,7 +112,10 @@ export function ProfileContent({ user }: ProfileContentProps) {
       times: selectedHours,
     });
 
-    console.log("Profile update response:", response);
+    if (response.error) {
+      toast.error(`Error updating profile: ${response.error}`);
+    }
+    toast.success(`Profile updated successfully!`);
   }
 
   return (
@@ -178,7 +183,13 @@ export function ProfileContent({ user }: ProfileContentProps) {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Telefone da clínica..."
+                          placeholder="(45) 99999-9999"
+                          onChange={(e) => {
+                            const formattedPhone = formatPhoneNumber(
+                              e.target.value
+                            );
+                            field.onChange(formattedPhone);
+                          }}
                         />
                       </FormControl>
                     </FormItem>

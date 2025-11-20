@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Reddit_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { SessionAuthProvider } from "@/components/session-auth";
+import { Toaster } from "sonner";
 
 const redditSans = Reddit_Sans({
   subsets: ["latin"],
@@ -33,6 +34,7 @@ export default function RootLayout({
       <body
         className={`${redditSans.className} ${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster position="top-right" richColors />
         <ThemeProvider
           attribute="class"
           enableSystem

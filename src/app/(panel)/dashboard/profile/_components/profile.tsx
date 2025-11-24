@@ -50,7 +50,7 @@ interface ProfileContentProps {
 
 export function ProfileContent({ user }: ProfileContentProps) {
   const [selectedHours, setSelectedHours] = useState<string[]>(
-    user.times ?? []
+    user.times ?? [],
   );
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -84,7 +84,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
     setSelectedHours((prev) =>
       prev.includes(hour)
         ? prev.filter((h) => h !== hour)
-        : [...prev, hour].sort()
+        : [...prev, hour].sort(),
     );
   }
 
@@ -99,7 +99,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
       zone.startsWith("America/Manaus") ||
       zone.startsWith("America/Cuiaba") ||
       zone.startsWith("America/Boa_Vista") ||
-      zone.startsWith("America/Sao_Paulo")
+      zone.startsWith("America/Sao_Paulo"),
   );
 
   async function onProfileFormSubmit(values: ProfileFormData) {
@@ -186,7 +186,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                           placeholder="(45) 99999-9999"
                           onChange={(e) => {
                             const formattedPhone = formatPhoneNumber(
-                              e.target.value
+                              e.target.value,
                             );
                             field.onChange(formattedPhone);
                           }}
@@ -258,7 +258,7 @@ export function ProfileContent({ user }: ProfileContentProps) {
                               className={cn(
                                 "h-10",
                                 selectedHours.includes(hour) &&
-                                  "border-2 border-emerald-500 text-primary"
+                                  "border-2 border-emerald-500 text-primary",
                               )}
                               onClick={() => toggleHour(hour)}
                             >

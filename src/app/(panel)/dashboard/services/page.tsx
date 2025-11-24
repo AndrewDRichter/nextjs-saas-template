@@ -11,7 +11,6 @@ export default async function Services() {
 
   return (
     <section>
-      <h1>Services page</h1>
       <ServiceContent userId={session?.user.id!} />
     </section>
   );

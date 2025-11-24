@@ -47,7 +47,7 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
             "w-20 items-center": isCollapsed,
             "w-64": !isCollapsed,
             "hidden md:flex md:fixed": true,
-          }
+          },
         )}
       >
         <div className="mb-6 mt-4">
@@ -240,7 +240,7 @@ function SidebarLink({
             "text-white bg-blue-500": pathname === href,
             "text-gray-700 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-800":
               pathname !== href,
-          }
+          },
         )}
       >
         <span className="w-6 h-6">{icon}</span>

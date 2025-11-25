@@ -14,8 +14,13 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
 import { ServiceDialogContent } from "./service-dialog-content";
+import { Service } from "@/generated/prisma/client";
 
-export function ServicesList() {
+interface ServicesListProps {
+  services: Service[];
+}
+
+export function ServicesList({ services }: ServicesListProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
@@ -33,7 +38,11 @@ export function ServicesList() {
             </DialogTrigger>
 
             <DialogContent>
-              <ServiceDialogContent />
+              <ServiceDialogContent
+                closeModal={() => {
+                  setIsDialogOpen(false);
+                }}
+              />
             </DialogContent>
           </CardHeader>
         </Card>

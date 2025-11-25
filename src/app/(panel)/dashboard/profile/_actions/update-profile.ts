@@ -2,7 +2,6 @@
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { error } from "console";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 

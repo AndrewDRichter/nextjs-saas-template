@@ -1,8 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import { DialogHeader } from "@/components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { useServiceForm } from "./service-dialog-form";
+import { useServiceForm, ServiceFormData } from "./service-dialog-form";
 import {
   Form,
   FormControl,
@@ -13,9 +14,60 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { convertRealToCents } from "@/utils/currencyConvert";
+import { createService } from "../_actions/create-service";
+import { toast } from "sonner";
 
-export function ServiceDialogContent() {
+interface ServiceDialogProps {
+  closeModal: () => void;
+}
+
+export function ServiceDialogContent({ closeModal }: ServiceDialogProps) {
   const form = useServiceForm();
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function onSubmit(values: ServiceFormData) {
+    setIsLoading(true);
+    const priceInCents = convertRealToCents(values.price);
+    const hours = parseInt(values.hours) || 0;
+    const minutes = parseInt(values.minutes) || 0;
+
+    const duration = hours * 60 + minutes;
+
+    const response = await createService({
+      name: values.name,
+      price: priceInCents,
+      duration: duration,
+    });
+
+    setIsLoading(false);
+
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    } else {
+      toast.success("Serviço cadastrado com sucesso!");
+      handleCloseModal();
+    }
+  }
+
+  function handleCloseModal() {
+    form.reset();
+    closeModal();
+  }
+
+  function currencyMask(event: React.ChangeEvent<HTMLInputElement>) {
+    let { value } = event.target;
+    value = value.replace(/\D/g, "");
+
+    if (value) {
+      value = (parseInt(value, 10) / 100).toFixed(2);
+      value = value.replace(".", ",");
+      value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+    event.target.value = value;
+    form.setValue("price", value);
+  }
 
   return (
     <>
@@ -25,7 +77,7 @@ export function ServiceDialogContent() {
       </DialogHeader>
 
       <Form {...form}>
-        <form className="space-y-2">
+        <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-2">
             <FormField
               control={form.control}
@@ -47,7 +99,11 @@ export function ServiceDialogContent() {
                 <FormItem>
                   <FormLabel>Preço</FormLabel>
                   <FormControl>
-                    <Input placeholder="Preço do serviço..." {...field} />
+                    <Input
+                      placeholder="0,00"
+                      {...field}
+                      onChange={currencyMask}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,8 +139,12 @@ export function ServiceDialogContent() {
               />
             </div>
           </div>
-          <Button className="w-full font-semibold" type="submit">
-            Adicionar
+          <Button
+            className="w-full font-semibold"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? "Cadastrando..." : "Adicionar"}
           </Button>
         </form>
       </Form>

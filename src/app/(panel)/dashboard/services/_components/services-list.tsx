@@ -16,6 +16,8 @@ import { PlusIcon, PencilIcon, XIcon } from "lucide-react";
 import { ServiceDialogContent } from "./service-dialog-content";
 import { Service } from "@/generated/prisma/client";
 import { formatCurrency } from "@/utils/currencyConvert";
+import { deleteService } from "../_actions/delete-service";
+import { toast } from "sonner";
 
 interface ServicesListProps {
   services: Service[];
@@ -24,7 +26,16 @@ interface ServicesListProps {
 export function ServicesList({ services }: ServicesListProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  console.log(services)
+  async function handleDeleteService(serviceId: string) {
+    const response = await deleteService({ serviceId: serviceId });
+
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    }
+
+    toast.success(response.data);
+  }
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -51,16 +62,29 @@ export function ServicesList({ services }: ServicesListProps) {
 
           <CardContent>
             <section className="space-y-4 mt-4">
-              {services.map(service => (
-                <article key={service.id} className="flex items-center justify-between">
+              {services.map((service) => (
+                <article
+                  key={service.id}
+                  className="flex items-center justify-between"
+                >
                   <div className="flex justify-between gap-2">
                     <h3 className="font-semibold">{service.name}</h3>
                     <span className="text-gray-500">-</span>
-                    <span className="text-gray-500">{formatCurrency((service.price / 100))}</span>
+                    <span className="text-gray-500">
+                      {formatCurrency(service.price / 100)}
+                    </span>
                   </div>
                   <div className="flex justify-between gap-1">
-                    <Button variant={"ghost"}><PencilIcon className="w-4 h-4" /></Button>
-                    <Button variant={"ghost"}><XIcon className="w-4 h-4" /></Button>
+                    <Button variant={"ghost"} size={"icon"} onClick={() => {}}>
+                      <PencilIcon className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant={"ghost"}
+                      size={"icon"}
+                      onClick={() => handleDeleteService(service.id)}
+                    >
+                      <XIcon className="w-4 h-4" />
+                    </Button>
                   </div>
                 </article>
               ))}

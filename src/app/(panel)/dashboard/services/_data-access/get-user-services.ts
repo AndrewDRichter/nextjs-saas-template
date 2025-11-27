@@ -14,6 +14,7 @@ export async function getUserServices({ userId }: GetUserServicesProps) {
     const services = await prisma.service.findMany({
       where: {
         userId: userId,
+        status: true,
       },
     });
 

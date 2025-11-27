@@ -6,14 +6,12 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(3, { message: "O nome é obrigatório" }),
-  price: z.number().min(1, { message: "O preço do serviço é obrigatório" }),
-  duration: z.number(),
+  serviceId: z.string().min(1, "O id do serviço é obrigatório"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export async function createService(formData: FormSchema) {
+export async function deleteService(formData: FormSchema) {
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -26,29 +24,29 @@ export async function createService(formData: FormSchema) {
 
   if (!schema.success) {
     return {
-      error: "Preencha todos os campos corretamente",
+      error: schema.error.issues[0].message,
     };
   }
 
   try {
-    const newService = await prisma.service.create({
+    await prisma.service.update({
+      where: {
+        id: formData.serviceId,
+        userId: session.user.id,
+      },
       data: {
-        name: formData.name,
-        price: formData.price,
-        duration: formData.duration,
-        userId: session?.user?.id,
+        status: false,
       },
     });
 
     revalidatePath("/dashboard/services");
-
     return {
-      data: newService,
+      data: "Serviço deletado com sucesso",
     };
   } catch (err) {
     console.log(err);
     return {
-      error: "Erro ao criar serviço",
+      error: "Erro ao deletar serviço",
     };
   }
 }

@@ -25,6 +25,7 @@ interface ServicesListProps {
 
 export function ServicesList({ services }: ServicesListProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [editingService, setEditingService] = useState<null | Service>(null);
 
   async function handleDeleteService(serviceId: string) {
     const response = await deleteService({ serviceId: serviceId });
@@ -35,6 +36,11 @@ export function ServicesList({ services }: ServicesListProps) {
     }
 
     toast.success(response.data);
+  }
+
+  async function handleEditService(service: Service) {
+    setEditingService(service);
+    setIsDialogOpen(true);
   }
 
   return (
@@ -56,6 +62,21 @@ export function ServicesList({ services }: ServicesListProps) {
                 closeModal={() => {
                   setIsDialogOpen(false);
                 }}
+                serviceId={editingService ? editingService.id : undefined}
+                initialValues={
+                  editingService
+                    ? {
+                        name: editingService.name,
+                        price: (editingService.price / 100)
+                          .toFixed(2)
+                          .replace(".", ","),
+                        hours: Math.floor(
+                          editingService.duration / 60,
+                        ).toString(),
+                        minutes: (editingService.duration % 60).toString(),
+                      }
+                    : null
+                }
               />
             </DialogContent>
           </CardHeader>
@@ -75,7 +96,11 @@ export function ServicesList({ services }: ServicesListProps) {
                     </span>
                   </div>
                   <div className="flex justify-between gap-1">
-                    <Button variant={"ghost"} size={"icon"} onClick={() => {}}>
+                    <Button
+                      variant={"ghost"}
+                      size={"icon"}
+                      onClick={() => handleEditService(service)}
+                    >
                       <PencilIcon className="w-4 h-4" />
                     </Button>
                     <Button

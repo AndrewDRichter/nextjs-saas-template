@@ -20,10 +20,10 @@ const serviceFormSchema = z.object({
 
 export type ServiceFormData = z.infer<typeof serviceFormSchema>;
 
-export function useServiceForm() {
+export function useServiceForm({ initialValues }: UseServiceFormProps) {
   return useForm<ServiceFormData>({
     resolver: zodResolver(serviceFormSchema),
-    defaultValues: {
+    defaultValues: initialValues || {
       name: "",
       price: "",
       hours: "",

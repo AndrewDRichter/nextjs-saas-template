@@ -20,10 +20,21 @@ import { toast } from "sonner";
 
 interface ServiceDialogProps {
   closeModal: () => void;
+  serviceId?: string;
+  initialValues: {
+    name: string;
+    price: string;
+    hours: string;
+    minutes: string;
+  };
 }
 
-export function ServiceDialogContent({ closeModal }: ServiceDialogProps) {
-  const form = useServiceForm();
+export function ServiceDialogContent({
+  closeModal,
+  serviceId,
+  initialValues,
+}: ServiceDialogProps) {
+  const form = useServiceForm({ initialValues });
   const [isLoading, setIsLoading] = useState(false);
 
   async function onSubmit(values: ServiceFormData) {

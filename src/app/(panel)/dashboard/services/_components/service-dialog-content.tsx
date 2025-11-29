@@ -21,7 +21,7 @@ import { toast } from "sonner";
 interface ServiceDialogProps {
   closeModal: () => void;
   serviceId?: string;
-  initialValues: {
+  initialValues?: {
     name: string;
     price: string;
     hours: string;
@@ -155,7 +155,9 @@ export function ServiceDialogContent({
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? "Cadastrando..." : "Adicionar"}
+            {isLoading
+              ? "Cadastrando..."
+              : `${serviceId ? "Atualizar" : "Cadastrar"}`}
           </Button>
         </form>
       </Form>

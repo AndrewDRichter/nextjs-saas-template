@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { convertRealToCents } from "@/utils/currencyConvert";
 import { createService } from "../_actions/create-service";
 import { toast } from "sonner";
+import { updateService } from "../_actions/update-service";
 
 interface ServiceDialogProps {
   closeModal: () => void;
@@ -45,6 +46,19 @@ export function ServiceDialogContent({
 
     const duration = hours * 60 + minutes;
 
+    if (serviceId) {
+      await editServiceById({
+        serviceId: serviceId,
+        name: values.name,
+        priceInCents: priceInCents,
+        duration: duration,
+      });
+
+      setIsLoading(false);
+
+      return;
+    }
+
     const response = await createService({
       name: values.name,
       price: priceInCents,
@@ -60,6 +74,33 @@ export function ServiceDialogContent({
       toast.success("Serviço cadastrado com sucesso!");
       handleCloseModal();
     }
+  }
+
+  async function editServiceById({
+    serviceId,
+    name,
+    priceInCents,
+    duration,
+  }: {
+    serviceId: string;
+    name: string;
+    priceInCents: number;
+    duration: number;
+  }) {
+    const response = await updateService({
+      serviceId: serviceId,
+      name: name,
+      price: priceInCents,
+      duration: duration,
+    });
+
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    }
+
+    toast.success("Serviço atualizado com sucesso!");
+    handleCloseModal();
   }
 
   function handleCloseModal() {
@@ -82,10 +123,17 @@ export function ServiceDialogContent({
 
   return (
     <>
-      <DialogHeader>
-        <DialogTitle>Novo Serviço</DialogTitle>
-        <DialogDescription>Adicionar novo serviço</DialogDescription>
-      </DialogHeader>
+      {serviceId ? (
+        <DialogHeader>
+          <DialogTitle>Editar Serviço</DialogTitle>
+          <DialogDescription>Atualizar dados do serviço</DialogDescription>
+        </DialogHeader>
+      ) : (
+        <DialogHeader>
+          <DialogTitle>Novo Serviço</DialogTitle>
+          <DialogDescription>Adicionar novo serviço</DialogDescription>
+        </DialogHeader>
+      )}
 
       <Form {...form}>
         <form className="space-y-2" onSubmit={form.handleSubmit(onSubmit)}>

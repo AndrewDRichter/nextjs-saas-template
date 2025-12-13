@@ -30,10 +30,20 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export function SidebarDashboard({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { update } = useSession();
+  const router = useRouter();
+
+  async function handleLogout() {
+    await signOut();
+    await update();
+    router.replace("/");
+  }
 
   return (
     <div className="flex min-h-screen w-full">
@@ -142,6 +152,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 isCollapsed={isCollapsed}
               />
             </nav>
+            <Button variant={"secondary"} onClick={handleLogout}>
+              Sair da conta
+            </Button>
           </CollapsibleContent>
         </Collapsible>
 
@@ -206,6 +219,9 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 />
               </nav>
               {/* <ThemeToggle btnClass="text-black dark:text-white" /> */}
+              <Button variant={"destructive"} onClick={handleLogout}>
+                Sair da conta
+              </Button>
             </SheetContent>
           </Sheet>
         </header>

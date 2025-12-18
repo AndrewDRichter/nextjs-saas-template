@@ -18,6 +18,7 @@ import {
   FolderOpen,
   LayoutDashboard,
   List,
+  LogOut,
   User2Icon,
 } from "lucide-react";
 import Link from "next/link";
@@ -151,10 +152,17 @@ export function SidebarDashboard({ children }: { children: React.ReactNode }) {
                 pathname={pathname}
                 isCollapsed={isCollapsed}
               />
+              <Button
+                variant={"destructive"}
+                onClick={handleLogout}
+                className="w-full"
+              >
+                <span>
+                  <LogOut />
+                </span>
+                Sair da conta
+              </Button>
             </nav>
-            <Button variant={"secondary"} onClick={handleLogout}>
-              Sair da conta
-            </Button>
           </CollapsibleContent>
         </Collapsible>
 

@@ -25,7 +25,7 @@ export function Header() {
   ];
 
   async function handleLogin() {
-    await handleProviderLogin("github");
+    await handleProviderLogin();
   }
 
   const NavLinks = () => (

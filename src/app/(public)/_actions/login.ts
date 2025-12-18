@@ -1,6 +1,6 @@
 "use server";
 import { signIn } from "@/lib/auth";
 
-export async function handleProviderLogin(provider: string) {
-  await signIn(provider, { redirectTo: "/dashboard" });
+export async function handleProviderLogin() {
+  await signIn("", { redirectTo: "/dashboard" });
 }

@@ -14,7 +14,11 @@ export async function getScheduleInfo({ clinicId }: { clinicId: string }) {
             },
             include: {
                 subscription: true,
-                services: true,
+                services: {
+                    where: {
+                        status: true,
+                    }
+                },
             }
         });
 
